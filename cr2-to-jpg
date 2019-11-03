@@ -23,6 +23,5 @@ fi
 for i in "${SOURCE}"/*.CR2; do
     filename=$(basename -- "$i")
     echo "Converting the following raw image: $filename to JPG";
-    echo "$DESTINATION/${filename%.*}.jpg";
     sips -s format jpeg "${i}" --out "$DESTINATION/${filename%.*}.jpg";
 done
