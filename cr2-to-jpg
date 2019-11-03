@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# cr2-to-jpg: a script to convert CR2 RAW image to JPEG
+
+while getopts s:d: option
+do
+    case "$option" in
+        s) SOURCE=${OPTARG};;
+        d) DESTINATION=${OPTARG};;
+    esac
+done
+
+if [ ! -d "$SOURCE" ]; then
+    echo "$SOURCE doesn't exist"
+    exit -1
+fi
+
+if [ ! -d "$DESTINATION" ]; then
+    echo "$DESTINATION doesn't exist"
+    exit -1
+fi
+
+for i in "${SOURCE}"/*.CR2; do
+    filename=$(basename -- "$i")
+    echo "Converting the following raw image: $filename to JPG";
+    echo "$DESTINATION/${filename%.*}.jpg";
+    sips -s format jpeg "${i}" --out "$DESTINATION/${filename%.*}.jpg";
+done
